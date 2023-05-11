@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Gun : MonoBehaviour
 
     [Range(0,20f)]public float spreadAngle = 0.1f;
     private Camera cam;
+
+    public UnityEvent onShoot;
 
     private void Start()
     {
@@ -40,6 +43,7 @@ public class Gun : MonoBehaviour
     {
         if (ammo <= 0) return;
         ammo--;
+        onShoot.Invoke();
             
         muzzleFlash.SetActive(true);
         Invoke(nameof(TurnOffMuzzleFlash),0.05f);
