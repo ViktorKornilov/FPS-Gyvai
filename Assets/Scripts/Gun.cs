@@ -5,7 +5,10 @@ public class Gun : MonoBehaviour
 {
     public GameObject prefab;
     public GameObject muzzleFlash;
+    
     public AudioClip shootSound;
+    public AudioClip reloadSound;
+    public AudioClip emptySound;
 
     AudioSource source;
 
@@ -33,16 +36,32 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+        }
+        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-          TryShoot();
+            TryShoot();
         }
     }
 
     public void TryShoot()
     {
-        if (ammo <= 0) return;
-        ammo--;
+        if (clip <= 0)
+        {
+            Reload();
+        }
+
+        if (clip <= 0)
+        {
+            source.PlayOneShot(emptySound);
+            return;
+        }
+        
+        clip -= 1;
+        
         onShoot.Invoke();
             
         muzzleFlash.SetActive(true);
@@ -53,6 +72,16 @@ public class Gun : MonoBehaviour
         {
             Shoot();
         }
+    }
+
+    public void Reload()
+    {
+        var bulletsNeeded = clipSize - clip;
+        var bulletToAdd = Mathf.Min(bulletsNeeded,ammo);
+        clip += bulletToAdd;
+        ammo -= bulletToAdd;
+        
+        source.PlayOneShot(reloadSound);
     }
 
     public void Shoot()
@@ -81,4 +110,15 @@ public class Gun : MonoBehaviour
     {
         muzzleFlash.SetActive(false);
     }
+    
+    
+    
+    // TASK
+    // Make gun reload with clips. automatically fills clip with remaining bullets up to
+    // maximum clip size.
+    // 80 points
+    
+    // Pistol, Shotgun, Rifle gun models, with custom sounds and variables
+    // 40 points
+
 }

@@ -5497,9 +5497,9 @@ MonoBehaviour:
   prefab: {fileID: 6713924307013900086, guid: 348f9d5cc4bc7d14ba7a4c799c8a0f2c, type: 3}
   muzzleFlash: {fileID: 917965630}
   shootSound: {fileID: 8300000, guid: 908887f5265945743a2342d803b27faf, type: 3}
-  maxAmmo: 7
+  maxAmmo: 20
   ammo: 0
-  clipSize: 10
+  clipSize: 9
   clip: 0
   bulletFireCount: 5
   spreadAngle: 2.9
