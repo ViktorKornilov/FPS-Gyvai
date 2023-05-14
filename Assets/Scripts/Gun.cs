@@ -103,6 +103,13 @@ public class Gun : MonoBehaviour
                 obj.transform.forward = hit.normal;
                 obj.transform.position += hit.normal * 0.02f;
             }
+            else
+            {
+                var health = hit.transform.GetComponent<Health>();
+                if (!health) return;
+                    
+                health.Damage(1);
+            }
         }
     }
 
