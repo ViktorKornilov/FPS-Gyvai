@@ -9,6 +9,8 @@ public class Health : MonoBehaviour
     public UnityEvent onDamage;
     public UnityEvent onDeath;
 
+    private bool isDead;
+
     public bool autoDestroy = false;
 
     private void Start()
@@ -25,6 +27,9 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
+        if (isDead) return;
+        isDead = true;
+        
         onDeath.Invoke();
         if(autoDestroy)Destroy(gameObject);
     }

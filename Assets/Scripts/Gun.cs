@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour
     
     public int clipSize = 10;
     public int clip;
+    public int damage = 10;
 
     [Range(0,10)]public int bulletFireCount = 1;
 
@@ -97,7 +98,8 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(ray,out var hit))
         {
-            if (!hit.transform.CompareTag("Enemy"))
+            var health = hit.transform.GetComponent<Health>();
+            if (!health)
             {
                 var obj = Instantiate(prefab, hit.point, Quaternion.Euler(0, 0, 0));
                 obj.transform.forward = hit.normal;
@@ -105,10 +107,7 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                var health = hit.transform.GetComponent<Health>();
-                if (!health) return;
-                    
-                health.Damage(1);
+                health.Damage(damage);
             }
         }
     }
