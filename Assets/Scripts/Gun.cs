@@ -19,6 +19,10 @@ public class Gun : MonoBehaviour
     public int clip;
     public int damage = 10;
 
+    public float fireRate = 5;
+    public float cooldown;
+    public bool autoFire;
+
     [Range(0,10)]public int bulletFireCount = 1;
 
     [Range(0,20f)]public float spreadAngle = 0.1f;
@@ -42,14 +46,23 @@ public class Gun : MonoBehaviour
             Reload();
         }
         
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (autoFire && Input.GetKey(KeyCode.Mouse0) )
         {
             TryShoot();
         }
+
+        if (!autoFire && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            TryShoot();
+        }
+
+        cooldown -= Time.deltaTime;
     }
 
     public void TryShoot()
     {
+        if (cooldown > 0) return;
+        
         if (clip <= 0)
         {
             Reload();
@@ -73,6 +86,8 @@ public class Gun : MonoBehaviour
         {
             Shoot();
         }
+
+        cooldown = 1/fireRate;
     }
 
     public void Reload()
@@ -116,15 +131,4 @@ public class Gun : MonoBehaviour
     {
         muzzleFlash.SetActive(false);
     }
-    
-    
-    
-    // TASK
-    // Make gun reload with clips. automatically fills clip with remaining bullets up to
-    // maximum clip size.
-    // 80 points
-    
-    // Pistol, Shotgun, Rifle gun models, with custom sounds and variables
-    // 40 points
-
 }
